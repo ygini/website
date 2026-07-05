@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# PR preview deployments live under this path and should not be indexed.
+Disallow: /pr-preview/
+
+Sitemap: https://yoann.gini.me/sitemap-index.xml
