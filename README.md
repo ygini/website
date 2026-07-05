@@ -29,7 +29,7 @@ npm run check      # type/content diagnostics only
 npm run gen:og     # regenerate public/og.png (social share image)
 ```
 
-Requires Node 20+.
+Requires Node 22+ (Astro 7 needs Node >=22.12.0).
 
 ## Project structure
 
