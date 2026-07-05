@@ -1,0 +1,83 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Section from '~/components/Section.astro';
+import { CONTACT_EMAIL } from '~/i18n/ui';
+
+const locale = 'en' as const;
+const title = 'Legal notice — Yoann Gini';
+const description =
+  'Legal notice for yoann.gini.me: publisher, publication director, business identifiers of the sole proprietorship Yoann Gini, hosting provider and privacy policy.';
+---
+
+<Layout page="legal" locale={locale} title={title} description={description}>
+  <Section title="Legal notice">
+    <div class="prose legal">
+      <h2>Site publisher</h2>
+      <dl>
+        <div><dt>Publisher</dt><dd>Yoann Gini — Sole proprietorship (entreprise individuelle)</dd></div>
+        <div><dt>Publication director</dt><dd>Yoann Gini</dd></div>
+        <div><dt>Address</dt><dd>10 rue Émile Zola, 13450 Grans, France</dd></div>
+        <div><dt>Contact</dt><dd><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></dd></div>
+        <div><dt>SIREN</dt><dd>501 741 615</dd></div>
+        <div><dt>SIRET (head office)</dt><dd>501 741 615 00030</dd></div>
+        <div><dt>Activity code (APE / NAF)</dt><dd>62.02A — Computer systems and software consulting</dd></div>
+        <div><dt>EU VAT number</dt><dd>FR3501741615</dd></div>
+      </dl>
+
+      <h2>Hosting</h2>
+      <p>
+        This site is hosted by <strong>GitHub, Inc.</strong> (GitHub Pages), 88 Colin P. Kelly Jr.
+        Street, San Francisco, CA 94107, USA.
+      </p>
+
+      <h2>Intellectual property</h2>
+      <p>
+        Unless stated otherwise, all content on this site (text, graphics, code) is the property of
+        Yoann Gini. Trademarks, logos and the names of conferences or companies mentioned belong to
+        their respective owners.
+      </p>
+
+      <h2>Privacy</h2>
+      <p>
+        This is a <strong>static site</strong>: it sets <strong>no cookies</strong>, uses
+        <strong> no trackers</strong> and performs <strong>no analytics</strong>. No personal data is
+        collected without your knowledge. If you choose to email me, the information you send is used
+        solely to respond to your request and is never shared or sold.
+      </p>
+
+      <h2>Liability</h2>
+      <p>
+        The information published is provided for guidance only and may change. Links to external
+        sites do not engage the publisher's responsibility for their content.
+      </p>
+    </div>
+  </Section>
+</Layout>
+
+<style>
+  .legal dl {
+    display: grid;
+    gap: 0.6rem;
+    margin: 0 0 1.5rem;
+  }
+  .legal dl > div {
+    display: grid;
+    grid-template-columns: 16rem 1fr;
+    gap: 0.5rem 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .legal dt {
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .legal dd {
+    margin: 0;
+  }
+  @media (max-width: 560px) {
+    .legal dl > div {
+      grid-template-columns: 1fr;
+      gap: 0.1rem;
+    }
+  }
+</style>

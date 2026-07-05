@@ -1,0 +1,94 @@
+---
+import type { Locale } from '~/lib/paths';
+import { talks } from '~/data/talks';
+
+interface Props {
+  locale: Locale;
+  sourceLabel: string;
+}
+
+const { locale, sourceLabel } = Astro.props;
+const sorted = [...talks].sort((a, b) => b.year - a.year);
+---
+
+<ul class="talks">
+  {
+    sorted.map((talk) => (
+      <li class="talk">
+        <span class="talk-year">{talk.year}</span>
+        <div class="talk-body">
+          <h3 class="talk-title">
+            {talk.url ? (
+              <a href={talk.url} target="_blank" rel="noopener">
+                {talk.title[locale]}
+                <span class="sr-only"> ({sourceLabel})</span>
+              </a>
+            ) : (
+              talk.title[locale]
+            )}
+          </h3>
+          <p class="muted talk-meta">
+            {talk.event}
+            {talk.location && <span> · {talk.location}</span>}
+          </p>
+        </div>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .talks {
+    list-style: none;
+    display: grid;
+    gap: 0.25rem;
+  }
+  .talk {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .talk:first-child {
+    border-top: none;
+  }
+  .talk-year {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 1.05rem;
+    padding-top: 0.05rem;
+  }
+  .talk-title {
+    font-family: var(--font-sans);
+    font-size: 1.02rem;
+    font-weight: 600;
+    margin: 0 0 0.15rem;
+    line-height: 1.4;
+  }
+  .talk-title a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .talk-title a:hover {
+    color: var(--accent);
+    border-bottom-color: currentColor;
+  }
+  .talk-meta {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

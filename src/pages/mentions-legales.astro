@@ -1,0 +1,84 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Section from '~/components/Section.astro';
+import { CONTACT_EMAIL } from '~/i18n/ui';
+
+const locale = 'fr' as const;
+const title = 'Mentions légales — Yoann Gini';
+const description =
+  'Mentions légales du site yoann.gini.me : éditeur, directeur de la publication, identifiants de l’entreprise individuelle Yoann Gini, hébergeur et politique de confidentialité.';
+---
+
+<Layout page="legal" locale={locale} title={title} description={description}>
+  <Section title="Mentions légales">
+    <div class="prose legal">
+      <h2>Éditeur du site</h2>
+      <dl>
+        <div><dt>Éditeur</dt><dd>Yoann Gini — Entreprise individuelle (EI)</dd></div>
+        <div><dt>Directeur de la publication</dt><dd>Yoann Gini</dd></div>
+        <div><dt>Adresse</dt><dd>10 rue Émile Zola, 13450 Grans, France</dd></div>
+        <div><dt>Contact</dt><dd><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></dd></div>
+        <div><dt>SIREN</dt><dd>501 741 615</dd></div>
+        <div><dt>SIRET (siège)</dt><dd>501 741 615 00030</dd></div>
+        <div><dt>Code APE / NAF</dt><dd>62.02A — Conseil en systèmes et logiciels informatiques</dd></div>
+        <div><dt>TVA intracommunautaire</dt><dd>FR3501741615</dd></div>
+      </dl>
+
+      <h2>Hébergement</h2>
+      <p>
+        Ce site est hébergé par <strong>GitHub, Inc.</strong> (GitHub Pages), 88 Colin P. Kelly Jr.
+        Street, San Francisco, CA 94107, États-Unis.
+      </p>
+
+      <h2>Propriété intellectuelle</h2>
+      <p>
+        L'ensemble des contenus de ce site (textes, éléments graphiques, code) est, sauf mention
+        contraire, la propriété de Yoann Gini. Les marques, logos et noms de conférences ou de
+        sociétés cités appartiennent à leurs détenteurs respectifs.
+      </p>
+
+      <h2>Confidentialité</h2>
+      <p>
+        Ce site est <strong>statique</strong> : il ne dépose <strong>aucun cookie</strong>, n'utilise
+        <strong> aucun traceur</strong> et ne réalise <strong>aucune mesure d'audience</strong>. Aucune
+        donnée personnelle n'est collectée à votre insu. Si vous choisissez de m'écrire par courriel,
+        les informations transmises servent uniquement à répondre à votre demande et ne sont ni
+        cédées, ni revendues.
+      </p>
+
+      <h2>Responsabilité</h2>
+      <p>
+        Les informations publiées sont fournies à titre indicatif et peuvent évoluer. Les liens vers
+        des sites externes n'engagent pas la responsabilité de l'éditeur quant à leur contenu.
+      </p>
+    </div>
+  </Section>
+</Layout>
+
+<style>
+  .legal dl {
+    display: grid;
+    gap: 0.6rem;
+    margin: 0 0 1.5rem;
+  }
+  .legal dl > div {
+    display: grid;
+    grid-template-columns: 16rem 1fr;
+    gap: 0.5rem 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .legal dt {
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .legal dd {
+    margin: 0;
+  }
+  @media (max-width: 560px) {
+    .legal dl > div {
+      grid-template-columns: 1fr;
+      gap: 0.1rem;
+    }
+  }
+</style>

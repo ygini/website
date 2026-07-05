@@ -1,0 +1,26 @@
+{
+  "name": "yoann-gini-website",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Professional website for Yoann Gini - IT Consulting & ULM instruction (entreprise individuelle).",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "build:preview": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "gen:og": "node scripts/generate-og.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.0.6",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3"
+  }
+}

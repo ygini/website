@@ -1,0 +1,144 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import ActivityCard from '~/components/ActivityCard.astro';
+import { localizedPath } from '~/lib/paths';
+import { personJsonLd, professionalServiceJsonLd } from '~/lib/jsonld';
+
+const locale = 'fr' as const;
+const title = 'Yoann Gini — Conseil en informatique & instruction ULM';
+const description =
+  'Yoann Gini, consultant en informatique indépendant : expert Apple, sécurité et mobilité (macOS/iOS, MDM/IDP). Également instructeur ULM multiaxe. Entreprise individuelle basée à Grans (13).';
+---
+
+<Layout
+  page="home"
+  locale={locale}
+  title={title}
+  description={description}
+  jsonLd={[personJsonLd(locale), professionalServiceJsonLd(locale)]}
+>
+  <section class="hero">
+    <div class="container hero-inner">
+      <span class="eyebrow">Entreprise individuelle · Grans (13), France</span>
+      <h1>Yoann Gini</h1>
+      <p class="hero-tagline">
+        Consultant en informatique — expert <strong>Apple</strong>, <strong>sécurité</strong> et
+        <strong>mobilité</strong>.
+      </p>
+      <p class="lead">
+        J'accompagne les organisations sur leurs systèmes d'information Apple : administration
+        macOS / iOS, gestion de flotte (MDM), identité (IDP), annuaires et sécurité. Une activité
+        secondaire d'instruction ULM complète mon parcours.
+      </p>
+
+      <ul class="hero-facts">
+        <li><strong>Apple Certified Trainer</strong> depuis 2007</li>
+        <li>Conférencier international (<strong>MacAdmins Conference</strong>)</li>
+        <li>Consultant indépendant — mission principale actuelle : <strong>Alectrona</strong></li>
+        <li>Langues : français (natif), anglais (professionnel)</li>
+      </ul>
+
+      <div class="hero-actions">
+        <a class="btn btn--primary" href={localizedPath('it', locale)}>Découvrir le conseil IT</a>
+        <a class="btn btn--ghost" href={localizedPath('ulm', locale)}>Activité ULM</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container">
+      <div class="activities">
+        <ActivityCard
+          href={localizedPath('it', locale)}
+          eyebrow="Activité principale"
+          title="Conseil en informatique"
+          description="DSI / CTO externalisé, expert Apple et sécurité pour TPE, PME, startups et éducation."
+          points={[
+            'Administration macOS & iOS, MDM / IDP',
+            'Services d’annuaire, identité et mobilité',
+            'Sécurité, rétro-ingénierie, architecture SI',
+          ]}
+          cta="Voir les compétences et le portfolio"
+          featured
+        />
+        <ActivityCard
+          href={localizedPath('ulm', locale)}
+          eyebrow="Activité occasionnelle"
+          title="Instruction ULM (multiaxe)"
+          description="Instructeur et directeur, exercé ponctuellement dans le monde de l’ULM."
+          points={[
+            'Instructeur de pilotes et d’instructeurs',
+            'Directeur de stage compétition',
+            'Directeur des vols en meeting',
+          ]}
+          cta="Voir l’activité ULM"
+        />
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 8vw, 6rem);
+    background:
+      radial-gradient(60% 120% at 100% 0%, var(--accent-soft), transparent 60%),
+      var(--bg);
+  }
+  .hero-inner {
+    max-width: 52rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.6rem, 7vw, 4.5rem);
+    margin: 0.2rem 0 0.4rem;
+  }
+  .hero-tagline {
+    font-family: var(--font-serif);
+    font-size: clamp(1.3rem, 3vw, 1.9rem);
+    color: var(--text);
+    margin: 0 0 1rem;
+  }
+  .hero .lead {
+    max-width: 54ch;
+  }
+  .hero-facts {
+    list-style: none;
+    display: grid;
+    gap: 0.5rem;
+    margin: 1.5rem 0 0;
+  }
+  .hero-facts li {
+    position: relative;
+    padding-left: 1.5rem;
+    color: var(--muted);
+  }
+  .hero-facts li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .hero-facts strong {
+    color: var(--text);
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+  .activities {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1rem, 3vw, 1.75rem);
+  }
+  @media (max-width: 720px) {
+    .activities {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

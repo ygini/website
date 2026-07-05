@@ -1,0 +1,39 @@
+---
+import '~/styles/global.css';
+import { withBase } from '~/lib/paths';
+
+const home = withBase('/');
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page introuvable — Yoann Gini</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+  </head>
+  <body>
+    <main class="notfound">
+      <div class="container">
+        <p class="eyebrow">Erreur 404 · Not found</p>
+        <h1>Page introuvable</h1>
+        <p class="lead">
+          Cette page n'existe pas ou a été déplacée. / This page does not exist or has moved.
+        </p>
+        <p><a class="btn btn--primary" href={home}>Retour à l'accueil / Back home</a></p>
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  .notfound {
+    min-height: 70vh;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding-block: 4rem;
+  }
+</style>
