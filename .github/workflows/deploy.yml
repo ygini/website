@@ -1,0 +1,46 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Allow the job to push the built site to the gh-pages branch.
+permissions:
+  contents: write
+
+# Never run two production deploys at once.
+concurrency:
+  group: pages-production
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (production)
+        run: npm run build
+
+      - name: Deploy to gh-pages (root)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          # Preserve existing pr-preview/* folders so open PR previews survive
+          # a production deploy. peaceiris does not force-push by default.
+          keep_files: true
+          cname: yoann.gini.me
+          commit_message: "Deploy site (${{ github.sha }})"

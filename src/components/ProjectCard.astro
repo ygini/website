@@ -1,0 +1,84 @@
+---
+import type { Locale } from '~/lib/paths';
+import type { Project } from '~/data/projects';
+
+interface Props {
+  project: Project;
+  locale: Locale;
+}
+
+const { project, locale } = Astro.props;
+---
+
+<a class="project card" href={project.url} target="_blank" rel="noopener">
+  <div class="project-head">
+    <h3>{project.name}</h3>
+    {
+      typeof project.stars === 'number' && (
+        <span class="project-stars" aria-label={`${project.stars} stars`}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 7.1-1.01L12 2z" />
+          </svg>
+          {project.stars}
+        </span>
+      )
+    }
+  </div>
+  <p class="muted project-desc">{project.description[locale]}</p>
+  {
+    project.tags && project.tags.length > 0 && (
+      <div class="project-tags">
+        {project.tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    )
+  }
+</a>
+
+<style>
+  .project {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+  }
+  .project:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+    text-decoration: none;
+  }
+  .project-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .project h3 {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+  .project-stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .project-desc {
+    margin: 0;
+    font-size: 0.95rem;
+    flex: 1;
+  }
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+  }
+</style>

@@ -1,0 +1,114 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Section from '~/components/Section.astro';
+import { SOCIAL_LINKS } from '~/i18n/ui';
+import { personJsonLd } from '~/lib/jsonld';
+
+const locale = 'fr' as const;
+const title = 'Activité ULM — Yoann Gini';
+const description =
+  'Activité occasionnelle d’instruction ULM en classe multiaxe : instructeur de pilotes et d’instructeurs, directeur de stage compétition et directeur des vols en meeting. Président de l’Aéroclub Nostradamus.';
+
+const roles: { title: string; body: string }[] = [
+  {
+    title: 'Instructeur de pilotes',
+    body: 'Formation initiale et perfectionnement des pilotes ULM en classe multiaxe (3 axes).',
+  },
+  {
+    title: 'Instructeur d’instructeurs',
+    body: 'Formation, accompagnement et évaluation des futurs instructeurs ULM.',
+  },
+  {
+    title: 'Directeur de stage compétition',
+    body: 'Encadrement et direction des stages de compétition ULM.',
+  },
+  {
+    title: 'Directeur des vols en meeting',
+    body: 'Direction et sécurité des vols lors de meetings et présentations aériennes.',
+  },
+];
+
+const highlights: string[] = [
+  '3ᵉ place au Championnat de France ULM 2015',
+  'Président de l’Aéroclub Nostradamus (aérodrome de Salon-Eyguières)',
+  'Engagement au sein de la Fédération Française d’ULM (FFPLUM)',
+];
+---
+
+<Layout page="ulm" locale={locale} title={title} description={description} jsonLd={personJsonLd(locale)}>
+  <Section eyebrow="Activité occasionnelle" title="Instruction ULM (multiaxe)">
+    <p class="lead">
+      En parallèle de mon activité de conseil, j'exerce ponctuellement dans le monde de l'ULM. Cette
+      activité, uniquement en <strong>classe multiaxe</strong> (3 axes), est facturée occasionnellement
+      sous le même numéro SIRET.
+    </p>
+  </Section>
+
+  <Section title="Rôles" surface tight>
+    <div class="roles">
+      {
+        roles.map((role) => (
+          <article class="card role">
+            <h3>{role.title}</h3>
+            <p class="muted">{role.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section title="À retenir" tight>
+    <ul class="highlights">
+      {highlights.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="ulm-links">
+      <a href={SOCIAL_LINKS.nostradamus} target="_blank" rel="noopener">Aéroclub Nostradamus</a>
+      <span aria-hidden="true"> · </span>
+      <a href={SOCIAL_LINKS.ffplum} target="_blank" rel="noopener">FFPLUM</a>
+    </p>
+  </Section>
+</Layout>
+
+<style>
+  .roles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: clamp(0.9rem, 2.5vw, 1.25rem);
+  }
+  .role {
+    padding: 1.35rem;
+  }
+  .role h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.35rem;
+  }
+  .role p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+  .highlights {
+    list-style: none;
+    display: grid;
+    gap: 0.65rem;
+    max-width: 60ch;
+  }
+  .highlights li {
+    position: relative;
+    padding-left: 1.6rem;
+    font-size: 1.02rem;
+  }
+  .highlights li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .ulm-links {
+    margin-top: 1.75rem;
+    font-weight: 600;
+  }
+</style>

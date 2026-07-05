@@ -1,0 +1,143 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Section from '~/components/Section.astro';
+import Timeline, { type TimelineItem } from '~/components/Timeline.astro';
+import TalksList from '~/components/TalksList.astro';
+import ProjectCard from '~/components/ProjectCard.astro';
+import { projects } from '~/data/projects';
+import { personJsonLd, professionalServiceJsonLd } from '~/lib/jsonld';
+
+const locale = 'en' as const;
+const title = 'IT consulting — Yoann Gini';
+const description =
+  'Apple, security and mobility expertise: macOS/iOS administration, MDM/IDP, directory services, reverse engineering. Yoann Gini’s background, skills, conference talks and open-source projects.';
+
+const expertise: { title: string; body: string }[] = [
+  {
+    title: 'Apple administration',
+    body: 'macOS and iOS fleet deployment and management, MDM, automation and workplace industrialization.',
+  },
+  {
+    title: 'Identity & directories',
+    body: 'Identity providers (IDP), SSO and directory services tailored for the Mac and mobility (EasyLogin project).',
+  },
+  {
+    title: 'Security',
+    body: 'Hardening, offensive security, intellectual-property protection and handling of sensitive scenarios.',
+  },
+  {
+    title: 'Reverse engineering',
+    body: 'Analysis of Cocoa applications, network protocols and system behaviour (packet sniffing).',
+  },
+  {
+    title: 'Infrastructure & mobility',
+    body: 'SMB IS architecture, Mac-based virtualization and secure mobility scenarios.',
+  },
+  {
+    title: 'Training & sharing',
+    body: 'Apple Certified Trainer since 2007, international speaker and author of course material.',
+  },
+];
+
+const timeline: TimelineItem[] = [
+  {
+    period: 'Today',
+    role: 'Independent consultant',
+    org: 'Primary engagement: Alectrona',
+    description: 'MDM & IDP engineering and advanced Apple expertise, operated as a sole proprietorship.',
+    current: true,
+  },
+  {
+    period: 'SaaS vendor',
+    role: 'Founder & CTO',
+    org: 'Bravas',
+    description: 'Cross-platform MDM and identity provider (IDP) built for the future.',
+  },
+  {
+    period: 'Since 2008',
+    role: 'Founder & principal',
+    org: 'Abelionni',
+    description:
+      'IT consulting company, outsourced CIO on Apple environments; member of the Apple Consultant Network.',
+  },
+  {
+    period: 'Since 2007',
+    role: 'Apple Certified Trainer',
+    description: 'Training and certification on Apple technologies.',
+  },
+];
+---
+
+<Layout
+  page="it"
+  locale={locale}
+  title={title}
+  description={description}
+  jsonLd={[personJsonLd(locale), professionalServiceJsonLd(locale)]}
+>
+  <Section eyebrow="Primary activity" title="IT consulting">
+    <p class="lead">
+      Outsourced CIO / CTO, Apple and security expert. I work with SMBs, startups and the education
+      sector on infrastructure management, mobility and security — with particular care for
+      environments where intellectual property must be protected.
+    </p>
+  </Section>
+
+  <Section title="Areas of expertise" surface tight>
+    <div class="grid-cards">
+      {
+        expertise.map((item) => (
+          <article class="card expertise">
+            <h3>{item.title}</h3>
+            <p class="muted">{item.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section title="Background" tight lead="A common thread: Apple technologies in the enterprise, identity and security.">
+    <Timeline items={timeline} />
+  </Section>
+
+  <Section
+    eyebrow="Portfolio"
+    title="Conference talks"
+    surface
+    lead="Public talks, mainly at the MacAdmins Conference (Penn State) and in the UK."
+  >
+    <TalksList locale={locale} sourceLabel="opens the conference page" />
+  </Section>
+
+  <Section title="Open-source projects" tight lead="A selection of tools published on GitHub.">
+    <div class="grid-cards">
+      {projects.map((project) => <ProjectCard project={project} locale={locale} />)}
+    </div>
+    <p class="repos-link">
+      <a href="https://github.com/ygini" target="_blank" rel="noopener">See all repositories on GitHub →</a>
+    </p>
+  </Section>
+</Layout>
+
+<style>
+  .grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
+    gap: clamp(0.9rem, 2.5vw, 1.25rem);
+  }
+  .expertise {
+    padding: 1.25rem;
+  }
+  .expertise h3 {
+    font-size: 1.12rem;
+    margin-bottom: 0.35rem;
+  }
+  .expertise p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+  .repos-link {
+    margin-top: 1.5rem;
+    font-weight: 600;
+  }
+</style>

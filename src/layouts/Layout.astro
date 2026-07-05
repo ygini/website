@@ -1,0 +1,100 @@
+---
+import '~/styles/global.css';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+import {
+  type Locale,
+  type PageId,
+  LOCALES,
+  canonicalUrl,
+  withBase,
+  SITE_ORIGIN,
+} from '~/lib/paths';
+import { useTranslations } from '~/i18n/ui';
+
+interface Props {
+  page: PageId;
+  locale: Locale;
+  title: string;
+  description: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { page, locale, title, description, jsonLd } = Astro.props;
+const t = useTranslations(locale);
+
+const canonical = canonicalUrl(page, locale);
+const ogImage = new URL('/og.png', SITE_ORIGIN).href;
+const htmlLang = locale === 'fr' ? 'fr-FR' : 'en';
+const ogLocale = locale === 'fr' ? 'fr_FR' : 'en_US';
+
+const alternates = LOCALES.map((l) => ({
+  hreflang: l === 'fr' ? 'fr-FR' : 'en',
+  href: canonicalUrl(page, l),
+}));
+
+const jsonLdList = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+
+<!doctype html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={t('meta.author')} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <meta name="theme-color" content="#0b3d91" />
+    <meta name="color-scheme" content="light dark" />
+
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl(page, 'fr')} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Yoann Gini" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
+
+    {
+      jsonLdList.map((data) => (
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />
+      ))
+    }
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t('skip')}</a>
+    <Header page={page} locale={locale} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    min-height: 100%;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+  main {
+    flex: 1 0 auto;
+  }
+</style>

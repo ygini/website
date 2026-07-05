@@ -1,0 +1,49 @@
+name: PR Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+# Deploy/remove previews on the gh-pages branch and comment on the PR.
+permissions:
+  contents: write
+  pull-requests: write
+
+# One preview deployment per PR at a time.
+concurrency:
+  group: pr-preview-${{ github.event.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        if: github.event.action != 'closed'
+        run: npm ci
+
+      # Runs `astro check` + `astro build`; also serves as the required
+      # status check for the PR. Built with the preview sub-path so every
+      # asset and internal link resolves under /pr-preview/pr-<n>/.
+      - name: Build (preview base)
+        if: github.event.action != 'closed'
+        env:
+          PREVIEW_BASE: /pr-preview/pr-${{ github.event.number }}/
+        run: npm run build
+
+      - name: Deploy / remove preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./dist
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          action: auto
